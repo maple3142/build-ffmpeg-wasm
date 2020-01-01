@@ -10,8 +10,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Clone
-      run: rm -rf * && git clone --depth 1 --branch n4.1.4 --depth 1 https://github.com/FFmpeg/FFmpeg .
+      run: rm -rf * && git clone --depth 1 --branch n4.1.4 --depth 1 https://github.com/FFmpeg/FFmpeg
     - name: Build
-      run: echo "emconfigure ./configure --disable-x86asm --disable-inline-asm --disable-doc --disable-stripping --nm="llvm-nm -g" --ar=emar --cc=emcc --cxx=em++ --objcc=emcc --dep-cc=emcc && emmake make -j8 && emcc -Llibavcodec -Llibavdevice -Llibavfilter -Llibavformat -Llibavresample -Llibavutil -Llibpostproc -Llibswscale -Llibswresample -Qunused-arguments -o ffmpeg.js fftools/ffmpeg_opt.o fftools/ffmpeg_filter.o fftools/ffmpeg_hw.o fftools/cmdutils.o fftools/ffmpeg.o -lavdevice -lavfilter -lavformat -lavcodec -lswresample -lswscale -lavutil -lm -pthread -s TOTAL_MEMORY=33554432 && exit" | docker run -it -v $PWD:/src trzeci/emscripten:1.38.45 /bin/bash
+      run: echo "emconfigure ./configure --disable-x86asm --disable-inline-asm --disable-doc --disable-stripping --nm="llvm-nm -g" --ar=emar --cc=emcc --cxx=em++ --objcc=emcc --dep-cc=emcc && emmake make -j8 && emcc -Llibavcodec -Llibavdevice -Llibavfilter -Llibavformat -Llibavresample -Llibavutil -Llibpostproc -Llibswscale -Llibswresample -Qunused-arguments -o ffmpeg.js fftools/ffmpeg_opt.o fftools/ffmpeg_filter.o fftools/ffmpeg_hw.o fftools/cmdutils.o fftools/ffmpeg.o -lavdevice -lavfilter -lavformat -lavcodec -lswresample -lswscale -lavutil -lm -pthread -s TOTAL_MEMORY=33554432 && exit" | docker run -it -v $PWD/FFmpeg:/src trzeci/emscripten:1.38.45 /bin/bash
     - name: test
-      run: ls
+      run: ls FFmpeg
